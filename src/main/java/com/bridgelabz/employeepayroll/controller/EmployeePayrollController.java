@@ -6,6 +6,8 @@ import com.bridgelabz.employeepayroll.service.IEmployeeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employeepayroll")
 public class EmployeePayrollController {
@@ -13,36 +15,34 @@ public class EmployeePayrollController {
     @Autowired
     IEmployeeServices employeeServices;
 
-    @RequestMapping("/employee")
-    public EmployeeModel employeeModel(){
-        EmployeeDTO employeeDTO=new EmployeeDTO();
-        return employeeServices.getEmployeeData(employeeDTO);
+        @RequestMapping("/seeEmployees")
+        public List<EmployeeModel> employeeModel(){
+        return employeeServices.getEmployeeData();
     }
 
-    @GetMapping("/getEmployee")
-    public EmployeeModel getEmployeeModel(@RequestParam(value = "id") int id){
+        @GetMapping("/getEmployee")
+        public EmployeeModel getEmployeeModel(@RequestParam(value = "id") int id){
 
-        return employeeServices.getEmployee(id);
-    }
+            return employeeServices.getEmployee(id);
+        }
 
 
-    @PostMapping("/creatEmployee")
-    public EmployeeModel getEmployeeModel(@RequestBody EmployeeDTO employeeDTO){
+        @PostMapping("/creatEmployee")
+        public EmployeeModel getEmployeeModel(@RequestBody EmployeeDTO employeeDTO){
 
-        return employeeServices.addEmployee(employeeDTO);
-    }
+            return employeeServices.addEmployee(employeeDTO);
+        }
 
-    @PutMapping("/updateEmployee/{id}")
-    public EmployeeModel updateEmployeeModel(@PathVariable ("id") int id,@RequestBody EmployeeDTO employeeDTO){
+        @PutMapping("/updateEmployee/{id}")
+        public EmployeeModel updateEmployeeModel(@PathVariable ("id") int id,@RequestBody EmployeeDTO employeeDTO){
 
-        return employeeServices.updateEmployee(id, employeeDTO);
-    }
+            return employeeServices.updateEmployee(id, employeeDTO);
+        }
 
-    @DeleteMapping("/deleteEmployee/{id}")
-    public EmployeeModel deleteEmployeeModel(@PathVariable ("id") int id){
-
-        return employeeServices.deleteEmployee(id);
-    }
+        @DeleteMapping("/deleteEmployee/{id}")
+        public void deleteEmployeeModel(@PathVariable ("id") int id){
+            employeeServices.deleteEmployee(id);
+        }
 
 
 }

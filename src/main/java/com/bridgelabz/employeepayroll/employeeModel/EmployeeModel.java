@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.List;
 
 
 @Data
@@ -17,8 +18,9 @@ public class EmployeeModel {
     private String companyName;
     private long salary;
 
-    public EmployeeModel(int id ,EmployeeDTO employeeDTO) {
-        this.id=id;
+    public EmployeeModel(int id, EmployeeDTO employeeDTO) {
+
+        this.id= id;
         this.fname=employeeDTO.getFname();
         this.lname=employeeDTO.getLname();
         this.companyName=employeeDTO.getCompanyName();
