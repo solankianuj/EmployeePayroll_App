@@ -15,34 +15,30 @@ public class EmployeePayrollController {
     @Autowired
     IEmployeeServices employeeServices;
 
-        @RequestMapping("/seeEmployees")
-        public List<EmployeeModel> employeeModel(){
-        return employeeServices.getEmployeeData();
+    @PostMapping("/addEmployee")
+    public EmployeeModel addemployee(@RequestBody EmployeeDTO employeeDTO){
+        return employeeServices.addEmployee(employeeDTO);
     }
 
-        @GetMapping("/getEmployee")
-        public EmployeeModel getEmployeeModel(@RequestParam(value = "id") int id){
+    @PutMapping("updateEmployee/{id}")
+    public EmployeeModel updateemployee(@PathVariable int id,@RequestBody EmployeeDTO employeeDTO){
+        return employeeServices.updateemployee(id,employeeDTO);
+    }
 
-            return employeeServices.getEmployee(id);
-        }
+    @DeleteMapping("/deleteEmployee/{id}")
+    public EmployeeModel deleteemployee(@PathVariable int id){
+        return employeeServices.deleteemployee(id);
+    }
 
 
-        @PostMapping("/creatEmployee")
-        public EmployeeModel getEmployeeModel(@RequestBody EmployeeDTO employeeDTO){
+    @GetMapping("/getemployeelist")
+    public List<EmployeeModel> getEmployee(){
+      return   employeeServices.getEmployeeList();
+    }
 
-            return employeeServices.addEmployee(employeeDTO);
-        }
-
-        @PutMapping("/updateEmployee/{id}")
-        public EmployeeModel updateEmployeeModel(@PathVariable ("id") int id,@RequestBody EmployeeDTO employeeDTO){
-
-            return employeeServices.updateEmployee(id, employeeDTO);
-        }
-
-        @DeleteMapping("/deleteEmployee/{id}")
-        public void deleteEmployeeModel(@PathVariable ("id") int id){
-            employeeServices.deleteEmployee(id);
-        }
-
+    @GetMapping("/getEmployee")
+    public EmployeeModel getEmployeeModel(@RequestParam(value = "id") int id){
+        return employeeServices.getEmployee(id);
+    }
 
 }

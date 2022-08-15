@@ -1,48 +1,57 @@
 package com.bridgelabz.employeepayroll.service;
 import com.bridgelabz.employeepayroll.employeeDTO.EmployeeDTO;
 import com.bridgelabz.employeepayroll.employeeModel.EmployeeModel;
+import com.bridgelabz.employeepayroll.repository.IEmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 
 public class EmployeeServices  implements  IEmployeeServices{
 
-    List<EmployeeModel> employeeModelList=new ArrayList<>();
+
+    @Autowired
+    IEmployeeRepository employeeRepository;
+
     @Override
-    public List<EmployeeModel> getEmployeeData() {
+    public EmployeeModel addEmployee(EmployeeDTO employeeDTO) {
+        EmployeeModel employeeModel=new EmployeeModel( employeeDTO);
+        employeeRepository.save(employeeModel);
+        return employeeModel;
+    }
+    @Override
+    public List<EmployeeModel> getEmployeeList() {
+        List<EmployeeModel> employeeModelList =employeeRepository.findAll();
         return employeeModelList;
     }
 
     @Override
     public EmployeeModel getEmployee(int id) {
-        return employeeModelList.get(id-1);
+        Optional<EmployeeModel> isEmployeePresent=employeeRepository.findById(id);
+        return  isEmployeePresent.get();
     }
-        @Override
-        public EmployeeModel addEmployee(EmployeeDTO employeeDTO) {
-            EmployeeModel employeeModel= new EmployeeModel(employeeModelList.size()+1,employeeDTO);
-               employeeModelList.add(employeeModel);
-            return employeeModel;
-        }
 
     @Override
-    public EmployeeModel updateEmployee(int id,EmployeeDTO employeeDTO) {
-        EmployeeModel employeeModel =this.getEmployee(id);
+    public EmployeeModel updateemployee(int id, EmployeeDTO employeeDTO) {
+        EmployeeModel employeeModel=this.getEmployee(id);
         employeeModel.setFname(employeeDTO.getFname());
         employeeModel.setLname(employeeDTO.getLname());
         employeeModel.setCompanyName(employeeDTO.getCompanyName());
         employeeModel.setSalary(employeeDTO.getSalary());
-        employeeModelList.set(id-1,employeeModel);
+            employeeRepository.save(employeeModel);
+            return employeeModel;
 
-        return employeeModel;
     }
 
     @Override
-    public void deleteEmployee(int id) {
-
-        employeeModelList.remove(id-1);
-
+    public EmployeeModel deleteemployee(int id) {
+        EmployeeModel employeeModel=this.getEmployee(id);
+        employeeRepository.delete(employeeModel);
+            return employeeModel;
     }
+
 }
