@@ -1,6 +1,7 @@
 package com.bridgelabz.employeepayroll.service;
 import com.bridgelabz.employeepayroll.employeeDTO.EmployeeDTO;
 import com.bridgelabz.employeepayroll.employeeModel.EmployeeModel;
+import com.bridgelabz.employeepayroll.exception.EmployeeNotFoundException;
 import com.bridgelabz.employeepayroll.repository.IEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,19 @@ public class EmployeeServices  implements  IEmployeeServices{
     @Override
     public List<EmployeeModel> getEmployeeList() {
         List<EmployeeModel> employeeModelList =employeeRepository.findAll();
-        return employeeModelList;
+       if (employeeModelList.size()>0){
+           return employeeModelList;
+       }
+       else throw new EmployeeNotFoundException(400,"No Data Present !!");
     }
 
     @Override
-    public EmployeeModel getEmployee(int id) {
+    public EmployeeModel getEmployee(int id)  {
         Optional<EmployeeModel> isEmployeePresent=employeeRepository.findById(id);
-        return  isEmployeePresent.get();
+        if(isEmployeePresent.isPresent()) {
+            return isEmployeePresent.get();
+        }
+        else throw new EmployeeNotFoundException(400,"Employee Not Found !!");
     }
 
     @Override
