@@ -3,9 +3,11 @@ package com.bridgelabz.employeepayroll.controller;
 import com.bridgelabz.employeepayroll.employeeDTO.EmployeeDTO;
 import com.bridgelabz.employeepayroll.employeeModel.EmployeeModel;
 import com.bridgelabz.employeepayroll.service.IEmployeeServices;
+import com.bridgelabz.employeepayroll.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,18 +18,18 @@ public class EmployeePayrollController {
     IEmployeeServices employeeServices;
 
     @PostMapping("/addEmployee")
-    public EmployeeModel addemployee(@RequestBody EmployeeDTO employeeDTO){
+    public EmployeeModel addemployee(@Valid @RequestBody EmployeeDTO employeeDTO){
         return employeeServices.addEmployee(employeeDTO);
     }
 
-    @PutMapping("updateEmployee/{id}")
-    public EmployeeModel updateemployee(@PathVariable int id,@RequestBody EmployeeDTO employeeDTO){
-        return employeeServices.updateemployee(id,employeeDTO);
+    @PutMapping("updateEmployee")
+    public EmployeeModel updateemployee(@RequestHeader String token,@RequestBody EmployeeDTO employeeDTO){
+        return employeeServices.updateemployee(token,employeeDTO);
     }
 
     @DeleteMapping("/deleteEmployee/{id}")
-    public EmployeeModel deleteemployee(@PathVariable int id){
-        return employeeServices.deleteemployee(id);
+    public EmployeeModel deleteemployee(@RequestHeader String token){
+        return employeeServices.deleteemployee(token);
     }
 
 
@@ -37,8 +39,12 @@ public class EmployeePayrollController {
     }
 
     @GetMapping("/getEmployee")
-    public EmployeeModel getEmployeeModel(@RequestParam(value = "id") int id){
-        return employeeServices.getEmployee(id);
+    public EmployeeModel getEmployeeModel(@RequestHeader String token){
+        return employeeServices.getEmployee(token);
+    }
+    @PostMapping("/login")
+    public Response login(@RequestParam String emile, @RequestParam String password){
+        return employeeServices.login(emile,password);
     }
 
 }

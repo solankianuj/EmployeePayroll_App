@@ -12,11 +12,13 @@ import java.util.List;
 public class EmployeeModel {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     private String fname;
     private String lname;
+    private String department;
+    private String emailId;
+    private String password;
     private String companyName;
     private long salary;
 
@@ -32,6 +34,9 @@ public class EmployeeModel {
 
         this.fname=employeeDTO.getFname();
         this.lname=employeeDTO.getLname();
+        this.emailId=employeeDTO.getEmailId();
+        this.password=employeeDTO.getPassword();
+        this.department=employeeDTO.getDepartment();
         this.companyName=employeeDTO.getCompanyName();
         this.salary=employeeDTO.getSalary();
     }
